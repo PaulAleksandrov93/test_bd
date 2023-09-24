@@ -1,2 +1,4 @@
 # Virtual Environment
 env/
+# PostgreSQL Data Directory
+pg_data/

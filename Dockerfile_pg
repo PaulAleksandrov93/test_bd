@@ -1,0 +1,5 @@
+# Используем официальный образ PostgreSQL
+FROM postgres
+
+# Устанавливаем необходимые зависимости
+RUN apt-get update && apt-get install -y libpq-dev

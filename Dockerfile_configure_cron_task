@@ -1,0 +1,24 @@
+# Используем официальный образ Python
+FROM python:3.11
+
+# Обновляем список пакетов
+RUN apt-get update
+
+# Устанавливаем необходимые зависимости
+RUN apt-get install -y libpq-dev
+
+# Устанавливаем psycopg2
+RUN pip install psycopg2-binary
+
+# Создаем директорию приложения
+WORKDIR /app
+
+# Копируем файлы
+COPY configure_cron_task.py /app/configure_cron_task.py
+COPY requirements_schedule.txt /app/requirements_schedule.txt
+
+# Устанавливаем зависимости
+RUN pip install -r /app/requirements_schedule.txt
+
+# Запускаем скрипт
+CMD ["python", "/app/configure_cron_task.py"]

@@ -37,7 +37,8 @@ services:
     build:
       context: .   # Путь к DRF приложению
       dockerfile: Dockerfile_api  # Путь к Dockerfile DRF приложения
-    command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "sleep 10 && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./rest_api:/app  # Путь к DRF приложению в контейнере
     ports:

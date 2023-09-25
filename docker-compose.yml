@@ -1,3 +1,60 @@
+# version: '3'
+
+# services:
+#   postgres:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile_pg
+#     environment:
+#       POSTGRES_PASSWORD: mysecretpassword
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - ./pg_data:/var/lib/postgresql/data
+#     networks:
+#       - pg_network
+
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: postgres@domain.com
+#       PGADMIN_DEFAULT_PASSWORD: postgres
+#       PGADMIN_DEFAULT_SERVER: pgserver
+#       PGADMIN_DEFAULT_SERVER_GROUP: Servers
+#       PGADMIN_DEFAULT_SERVER_CONNECTION: postgres://postgres:mysecretpassword@postgres:5432/postgres
+#     ports:
+#       - "5050:80"
+#     networks:
+#       - pg_network
+
+#   configure_cron_task:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile_configure_cron_task  
+#     volumes:
+#       - ./pg_data:/var/lib/postgresql/data
+#     networks:
+#       - pg_network
+
+#   rest_api:
+#     build:
+#       context: .   # Путь к DRF приложению
+#       dockerfile: Dockerfile_api  # Путь к Dockerfile DRF приложения
+#     # command: python manage.py runserver 0.0.0.0:8000
+#     command: bash -c "sleep 10 && python manage.py runserver 0.0.0.0:8000"
+#     volumes:
+#       - ./rest_api:/app  # Путь к DRF приложению в контейнере
+#     ports:
+#       - "8000:8000"  # Проброс порта
+#     depends_on:
+#       - postgres  # Зависимость от postgres
+#     networks:
+#       - pg_network
+
+# networks:
+#   pg_network:
+#     driver: bridge
+
 version: '3'
 
 services:
@@ -17,19 +74,16 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      # PGADMIN_DEFAULT_EMAIL: postgres@domain.com
-      # PGADMIN_DEFAULT_PASSWORD: postgres
       PGADMIN_DEFAULT_EMAIL: postgres@domain.com
       PGADMIN_DEFAULT_PASSWORD: postgres
       PGADMIN_LISTEN_HOST: 0.0.0.0
       PGADMIN_LISTEN_PORT: 5050
-      PGADMIN_DEFAULT_SERVER: pgserver
-      PGADMIN_DEFAULT_SERVER_GROUP: Servers
-      PGADMIN_DEFAULT_SERVER_CONNECTION: postgres://postgres:mysecretpassword@postgres:5432/postgres
     ports:
-      - "5050:80"
+      - "5050:5050"  
     networks:
       - pg_network
+    depends_on:
+      - postgres
 
   configure_cron_task:
     build:
@@ -44,7 +98,6 @@ services:
     build:
       context: .   # Путь к DRF приложению
       dockerfile: Dockerfile_api  # Путь к Dockerfile DRF приложения
-    # command: python manage.py runserver 0.0.0.0:8000
     command: bash -c "sleep 10 && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./rest_api:/app  # Путь к DRF приложению в контейнере

@@ -7,7 +7,7 @@
 
 Клонируйте репозиторий: git clone https://github.com/PaulAleksandrov93/test_bd.git
 Перейдите в каталог проекта: cd test_bd
-Запустите контейнеры: docker-compose up -d
+Запустите контейнеры: docker-compose up --build
 Приложение будет доступно по следующим адресам:
 Веб-интерфейс PGAdmin: http://localhost:5050
 Логин: postgres@domain.com
